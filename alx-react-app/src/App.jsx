@@ -12,9 +12,9 @@ function App() {
       <h1>UserProfile</h1>
             {/* Passing your info as props */}
       <UserProfile 
-        name="Blessing James" 
-        age="22" 
-        bio="A curious learner who loves exploring new ideas and building creative projects." 
+        name="Alice" 
+        age="25" 
+        bio="Loves hiking and photography."
       />
 
       <WelcomeMessage />
