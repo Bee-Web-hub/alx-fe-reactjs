@@ -3,15 +3,25 @@ import WelcomeMessage from './components/WelcomeMessage';
 import Header from './Header';
 import MainContent from './MainContent';
 import Footer from './Footer';
+import UserProfile from "./UserProfile";
 import './App.css';
 
 function App() {
   return (
     <div>
+      <h1>UserProfile</h1>
+            {/* Passing your info as props */}
+      <UserProfile 
+        name="Blessing James" 
+        age="22" 
+        bio="A curious learner who loves exploring new ideas and building creative projects." 
+      />
+
       <WelcomeMessage />
       <Header />
       <MainContent />
       <Footer />
+      
 
     </div>
   );
