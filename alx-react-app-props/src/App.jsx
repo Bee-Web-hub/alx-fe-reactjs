@@ -1,7 +1,7 @@
 // src/App.jsx
 import React from "react";
 import UserProfile from "./components/UserProfile";
-import UserContext from "./components/UserContext"; // adjust if in components
+import UserContext from "./components/UserContext"; // context is in components
 
 function App() {
   const userData = { 
