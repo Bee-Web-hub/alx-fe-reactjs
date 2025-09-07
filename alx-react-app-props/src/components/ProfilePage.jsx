@@ -1,17 +1,14 @@
-// src/components/UserProfile.jsx
-import React, { useContext } from "react";
-import UserContext from "./UserContext"; // same folder
+// src/components/ProfilePage.jsx
+import React from "react";
+import UserInfo from "./UserInfo";
 
-const UserProfile = () => {
-  const userData = useContext(UserContext);
-
+function ProfilePage() {
   return (
-    <div style={{ border: "1px solid gray", padding: "10px", margin: "10px" }}>
-      <h2 style={{ color: "blue" }}>{userData.name}</h2>
-      <p>Age: <span style={{ fontWeight: "bold" }}>{userData.age}</span></p>
-      <p>Bio: {userData.bio}</p>
+    <div>
+      <h1>Profile Page</h1>
+      <UserInfo /> {/* renders UserProfile internally */}
     </div>
   );
-};
+}
 
-export default UserProfile;
+export default ProfilePage;
