@@ -1,16 +1,14 @@
 // src/components/EditRecipeForm.jsx
 import { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import useRecipeStore from './recipeStore'
 
-const EditRecipeForm = () => {
-  const { id } = useParams()
-  const navigate = useNavigate()
-  const recipe = useRecipeStore((s) => s.recipes.find(r => String(r.id) === id))
+const EditRecipeForm = ({ recipe, onClose }) => {
   const updateRecipe = useRecipeStore((s) => s.updateRecipe)
+  const navigate = useNavigate()
 
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
+  const [title, setTitle] = useState(recipe?.title || '')
+  const [description, setDescription] = useState(recipe?.description || '')
 
   useEffect(() => {
     if (recipe) {
@@ -19,13 +17,20 @@ const EditRecipeForm = () => {
     }
   }, [recipe])
 
-  if (!recipe) return <p>Recipe not found.</p>
+  const handleSubmit = (event) => {
+    // ✅ Explicit preventDefault
+    event.preventDefault()
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (!title.trim() || !description.trim()) return
-    updateRecipe(id, { title: title.trim(), description: description.trim() })
-    navigate(`/recipe/${id}`) // match your route for details
+    if (!title.trim()) return
+
+    updateRecipe(recipe.id, {
+      title: title.trim(),
+      description: description.trim(),
+    })
+
+    // Close the edit form if inline, or navigate if using separate page
+    if (onClose) onClose()
+    else navigate(`/recipe/${recipe.id}`)
   }
 
   return (
@@ -42,7 +47,11 @@ const EditRecipeForm = () => {
         placeholder="Description"
       />
       <button type="submit">Save</button>
-      <button type="button" onClick={() => navigate(-1)}>Cancel</button>
+      {onClose && (
+        <button type="button" onClick={onClose}>
+          Cancel
+        </button>
+      )}
     </form>
   )
 }
