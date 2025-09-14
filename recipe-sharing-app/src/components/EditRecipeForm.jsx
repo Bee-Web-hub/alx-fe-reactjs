@@ -1,3 +1,4 @@
+// src/components/EditRecipeForm.jsx
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import useRecipeStore from './recipeStore'
@@ -22,16 +23,24 @@ const EditRecipeForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (!title.trim()) return
+    if (!title.trim() || !description.trim()) return
     updateRecipe(id, { title: title.trim(), description: description.trim() })
-    navigate(`/recipes/${id}`)
+    navigate(`/recipe/${id}`) // match your route for details
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <h2>Edit Recipe</h2>
-      <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" />
-      <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
+      <input
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Title"
+      />
+      <textarea
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        placeholder="Description"
+      />
       <button type="submit">Save</button>
       <button type="button" onClick={() => navigate(-1)}>Cancel</button>
     </form>
