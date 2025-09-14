@@ -1,7 +1,19 @@
-import useRecipeStore from '../recipeStore'
+// src/components/RecipeList.jsx
+import { Link } from 'react-router-dom'
+import useRecipeStore from './recipeStore'
 
 const RecipeList = () => {
   const recipes = useRecipeStore((state) => state.recipes)
+  const deleteRecipe = useRecipeStore((state) => state.deleteRecipe)
+  const updateRecipe = useRecipeStore((state) => state.updateRecipe)
+
+  const handleEdit = (id) => {
+    const newTitle = prompt('Enter new title:')
+    const newDescription = prompt('Enter new description:')
+    if (newTitle && newDescription) {
+      updateRecipe(id, { title: newTitle, description: newDescription })
+    }
+  }
 
   return (
     <div>
@@ -11,8 +23,15 @@ const RecipeList = () => {
       ) : (
         recipes.map((recipe) => (
           <div key={recipe.id}>
-            <h3>{recipe.title}</h3>
+            {/* ✅ Make recipe title clickable */}
+            <h3>
+              <Link to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
+            </h3>
             <p>{recipe.description}</p>
+
+            {/* ✅ Edit & Delete buttons remain */}
+            <button onClick={() => handleEdit(recipe.id)}>Edit</button>
+            <button onClick={() => deleteRecipe(recipe.id)}>Delete</button>
           </div>
         ))
       )}
