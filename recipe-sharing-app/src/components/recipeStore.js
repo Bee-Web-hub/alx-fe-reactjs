@@ -24,11 +24,9 @@ const useRecipeStore = create((set) => ({
       recipes: state.recipes.filter((r) => String(r.id) !== String(id)),
     })),
 
-  // ✅ NEW: Search term for filtering
+  // ✅ Search functionality
   searchTerm: '',
   setSearchTerm: (term) => set({ searchTerm: term }),
-
-  // ✅ NEW: Filtered recipes based on searchTerm
   filteredRecipes: [],
   filterRecipes: () =>
     set((state) => ({
@@ -36,6 +34,28 @@ const useRecipeStore = create((set) => ({
         recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
       ),
     })),
+
+  // ✅ Favorites
+  favorites: [],
+  addFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: [...state.favorites, recipeId],
+    })),
+  removeFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: state.favorites.filter((id) => id !== recipeId),
+    })),
+
+  // ✅ Recommendations
+  recommendations: [],
+  generateRecommendations: () =>
+    set((state) => {
+      const recommended = state.recipes.filter(
+        (recipe) =>
+          state.favorites.includes(recipe.id) && Math.random() > 0.5
+      )
+      return { recommendations: recommended }
+    }),
 }))
 
 export default useRecipeStore
