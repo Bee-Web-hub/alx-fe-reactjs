@@ -3,13 +3,14 @@ import { create } from 'zustand'
 const useRecipeStore = create((set) => ({
   recipes: [],
 
-  // ✅ already in your code
+  // Add a new recipe
   addRecipe: (newRecipe) =>
     set((state) => ({ recipes: [...state.recipes, newRecipe] })),
 
+  // Initialize recipe list
   setRecipes: (recipes) => set({ recipes }),
 
-  // ✅ NEW: update a recipe by id
+  // Update a recipe by id
   updateRecipe: (id, updates) =>
     set((state) => ({
       recipes: state.recipes.map((r) =>
@@ -17,7 +18,7 @@ const useRecipeStore = create((set) => ({
       ),
     })),
 
-  // ✅ NEW: delete a recipe by id
+  // Delete a recipe by id
   deleteRecipe: (id) =>
     set((state) => ({
       recipes: state.recipes.filter((r) => String(r.id) !== String(id)),

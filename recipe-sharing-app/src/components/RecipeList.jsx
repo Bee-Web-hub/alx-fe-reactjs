@@ -1,4 +1,3 @@
-// src/components/RecipeList.jsx
 import { Link } from 'react-router-dom'
 import useRecipeStore from './recipeStore'
 
@@ -23,13 +22,13 @@ const RecipeList = () => {
       ) : (
         recipes.map((recipe) => (
           <div key={recipe.id}>
-            {/* ✅ Make recipe title clickable */}
+            {/* Make title clickable to go to details */}
             <h3>
               <Link to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
             </h3>
             <p>{recipe.description}</p>
 
-            {/* ✅ Edit & Delete buttons remain */}
+            {/* Edit & Delete buttons */}
             <button onClick={() => handleEdit(recipe.id)}>Edit</button>
             <button onClick={() => deleteRecipe(recipe.id)}>Delete</button>
           </div>
