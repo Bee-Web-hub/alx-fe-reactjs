@@ -1,10 +1,14 @@
+// src/components/RecipeDetails.jsx
 import { Link, useParams } from 'react-router-dom'
 import useRecipeStore from './recipeStore'
 
 const RecipeDetails = () => {
   const { id } = useParams()
-  const recipe = useRecipeStore((state) => state.recipes.find(r => String(r.id) === id))
+  const recipe = useRecipeStore((state) =>
+    state.recipes.find((r) => String(r.id) === id)
+  )
 
+  // ✅ Safely handle missing recipe
   if (!recipe) return <p>Recipe not found.</p>
 
   return (
@@ -13,7 +17,8 @@ const RecipeDetails = () => {
       <p>{recipe.description}</p>
 
       <div style={{ marginTop: 16 }}>
-        <Link to={`/recipes/${id}/edit`}>Edit</Link> {' | '}
+        {/* Edit functionality link (optional, can create edit form later) */}
+        <Link to={`/recipe/${id}/edit`}>Edit</Link> {' | '}
         <Link to="/">Back to list</Link>
       </div>
     </div>
