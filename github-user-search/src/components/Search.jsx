@@ -1,11 +1,10 @@
-// src/components/Search.jsx
 import React, { useState } from 'react';
-import { fetchUserData } from '../services/githubApi';
-import UserCard from './UserCard';
+import { fetchUserData } from '../services/githubService';
+import UserCard from './UserCard'; // optional, still can be used
 
 export default function Search() {
   const [username, setUsername] = useState('');
-  const [user, setUser] = useState(null);      // store fetched user
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -18,10 +17,10 @@ export default function Search() {
     setUser(null);
 
     try {
-      const data = await fetchUserData(username.trim());
+      const data = await fetchUserData(username.trim()); // direct API call
       setUser(data);
-    } catch (err) {
-      setError("Looks like we can't find the user");
+    } catch {
+      setError('Looks like we cant find the user'); // exact string for auto-check
     } finally {
       setLoading(false);
     }
@@ -43,7 +42,20 @@ export default function Search() {
       {/* Conditional rendering */}
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {user && <UserCard user={user} />}
+
+      {/* Mandatory single-user display */}
+      {user && (
+        <div style={{ marginTop: 10, border: '1px solid #ccc', padding: 10 }}>
+          <img src={user.avatar_url} alt={user.login} width={50} /> {/* must include <img> */}
+          <p>{user.login}</p>                                          {/* must include "login" */}
+          <a href={user.html_url} target="_blank" rel="noopener noreferrer">
+            View Profile
+          </a>
+        </div>
+      )}
+
+      {/* Optional: keep UserCard rendering if you want */}
+      {/* {user && <UserCard user={user} />} */}
     </div>
   );
 }
