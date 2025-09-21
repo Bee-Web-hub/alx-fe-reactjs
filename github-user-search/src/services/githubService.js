@@ -14,13 +14,28 @@ export async function fetchUserData(username) {
   }
 }
 
-// Fetch multiple users (search)
-export async function searchUsers(query) {
+/**
+ * Fetch multiple users (search)
+ * Can now handle advanced filters: location and minimum repos
+ * @param {string} query - username or keyword
+ * @param {object} options - { location?: string, minRepos?: number }
+ */
+export async function searchUsers(query, options = {}) {
   try {
+    let searchQuery = query || '';
+
+    if (options.location) {
+      searchQuery += `+location:${options.location}`;
+    }
+    if (options.minRepos) {
+      searchQuery += `+repos:>=${options.minRepos}`;
+    }
+
     const res = await axios.get(`${BASE_URL}/search/users`, {
-      params: { q: query },
+      params: { q: searchQuery },
       headers,
     });
+
     return res.data; // { total_count, items: [...] }
   } catch (error) {
     throw new Error("Failed to fetch users");
