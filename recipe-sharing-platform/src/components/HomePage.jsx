@@ -14,10 +14,20 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      <h1 className="text-4xl font-bold text-center text-green-600 mb-10">
-        🍲 Recipe Sharing Platform
-      </h1>
+      {/* Header with Add Recipe button */}
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-10">
+        <h1 className="text-4xl font-bold text-green-600 mb-4 sm:mb-0">
+          🍲 Recipe Sharing Platform
+        </h1>
+        <Link
+          to="/add"
+          className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
+        >
+          + Add New Recipe
+        </Link>
+      </div>
 
+      {/* Recipe Grid */}
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {recipes.map((recipe) => (
           <Link
