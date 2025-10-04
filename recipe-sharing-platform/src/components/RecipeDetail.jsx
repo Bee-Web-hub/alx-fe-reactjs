@@ -1,16 +1,22 @@
 import { useParams, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import data from "../data.json"; // your JSON file in src
 
 export default function RecipeDetail() {
   const { id } = useParams();
+  const [recipe, setRecipe] = useState(null);
 
   // Find recipe by ID
-  const recipe = data.find((r) => r.id === parseInt(id));
+useEffect(() => {
+    // Simulate fetching the recipe
+    const found = data.find((r) => r.id === parseInt(id));
+    setRecipe(found);
+  }, [id]);
 
   if (!recipe) {
     return (
       <div className="p-6 text-center text-gray-500">
-        Recipe not found.
+        Recipe not found or loading...
         <div>
           <Link to="/" className="text-blue-500 hover:underline">
             ← Back to Home
