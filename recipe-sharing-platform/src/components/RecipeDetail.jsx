@@ -1,14 +1,25 @@
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import data from "../data.json"; // your JSON in src
 
 export default function RecipeDetail() {
   const { id } = useParams();
-  const recipe = data.find((r) => r.id === parseInt(id));
+  const [recipe, setRecipe] = useState(null);
+
+  // Load recipe dynamically from data.json
+  useEffect(() => {
+    fetch("/src/data.json")
+      .then((res) => res.json())
+      .then((data) => {
+        const foundRecipe = data.find((r) => r.id === parseInt(id));
+        setRecipe(foundRecipe);
+      })
+      .catch((err) => console.error("Error loading recipe:", err));
+  }, [id]);
 
   if (!recipe) {
     return (
       <div className="p-6 text-center text-gray-500">
-        Recipe not found
+        Recipe not found or loading...
         <div>
           <Link to="/" className="text-blue-500 hover:underline">
             ← Back to Home
@@ -30,6 +41,7 @@ export default function RecipeDetail() {
           alt={recipe.title}
           className="w-full h-64 object-cover rounded-lg mb-6"
         />
+
         <h1 className="text-3xl font-bold text-gray-800 mb-4">{recipe.title}</h1>
         <p className="text-gray-700 mb-6">{recipe.summary}</p>
 
@@ -49,9 +61,7 @@ export default function RecipeDetail() {
             <h2 className="text-2xl font-semibold mb-2">Instructions</h2>
             <ol className="list-decimal list-inside text-gray-700">
               {recipe.instructions.map((step, idx) => (
-                <li key={idx} className="mb-2">
-                  {step}
-                </li>
+                <li key={idx} className="mb-2">{step}</li>
               ))}
             </ol>
           </section>
