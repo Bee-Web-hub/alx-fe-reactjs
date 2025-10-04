@@ -1,9 +1,8 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './components/HomePage';
-import RecipeDetail from './components/RecipeDetail';
-import './index.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./components/HomePage";
+import RecipeDetail from "./components/RecipeDetail";
 
-function App() {
+export default function App() {
   return (
     <Router>
       <Routes>
@@ -13,5 +12,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;

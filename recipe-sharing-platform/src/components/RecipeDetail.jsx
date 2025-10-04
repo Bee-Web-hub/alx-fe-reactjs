@@ -1,22 +1,14 @@
 import { useParams, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import data from "../data.json"; // your JSON file in src
+import data from "../data.json"; // your JSON in src
 
 export default function RecipeDetail() {
   const { id } = useParams();
-  const [recipe, setRecipe] = useState(null);
-
-  // Find recipe by ID
-useEffect(() => {
-    // Simulate fetching the recipe
-    const found = data.find((r) => r.id === parseInt(id));
-    setRecipe(found);
-  }, [id]);
+  const recipe = data.find((r) => r.id === parseInt(id));
 
   if (!recipe) {
     return (
       <div className="p-6 text-center text-gray-500">
-        Recipe not found or loading...
+        Recipe not found
         <div>
           <Link to="/" className="text-blue-500 hover:underline">
             ← Back to Home
@@ -33,18 +25,14 @@ useEffect(() => {
       </Link>
 
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
-        {/* Recipe image */}
         <img
           src={recipe.image}
           alt={recipe.title}
           className="w-full h-64 object-cover rounded-lg mb-6"
         />
-
-        {/* Title and summary */}
         <h1 className="text-3xl font-bold text-gray-800 mb-4">{recipe.title}</h1>
         <p className="text-gray-700 mb-6">{recipe.summary}</p>
 
-        {/* Ingredients */}
         {recipe.ingredients && (
           <section className="mb-6">
             <h2 className="text-2xl font-semibold mb-2">Ingredients</h2>
@@ -56,7 +44,6 @@ useEffect(() => {
           </section>
         )}
 
-        {/* Instructions */}
         {recipe.instructions && (
           <section>
             <h2 className="text-2xl font-semibold mb-2">Instructions</h2>
