@@ -45,5 +45,41 @@
       "Add tomato puree, simmer 10 minutes, then add cream.",
       "Add grilled chicken to the sauce, simmer 5–10 minutes, and serve with rice or naan."
     ]
-  }
+  },
+
+ {
+  "id": 3,
+  "title": "Pasta Bolognese",
+  "summary": "A classic Italian pasta dish featuring a rich, slow-cooked meat sauce served over your favorite pasta. Perfect for a comforting family meal.",
+     "image": "https://i.pinimg.com/1200x/df/6f/76/df6f76a785a000a1cb95387cbfd2d39d.jpg",
+
+  "ingredients": [
+    "2 tablespoons olive oil",
+    "1 medium onion, finely chopped",
+    "2 cloves garlic, minced",
+    "1 medium carrot, finely diced",
+    "1 celery stalk, finely diced",
+    "400-500g ground beef",
+    "2 tablespoons tomato paste",
+    "1 can (400g) chopped tomatoes",
+    "125 ml red wine (optional)",
+    "125 ml beef or chicken stock",
+    "1 teaspoon dried oregano",
+    "1 teaspoon dried basil (optional)",
+    "Salt and black pepper, to taste",
+    "A pinch of sugar (optional)"
+  ],
+  "instructions": [
+    "Heat olive oil in a large pan over medium heat.",
+    "Add onion, garlic, carrot, and celery, and sauté until soft, about 5-7 minutes.",
+    "Add ground beef and cook until browned, breaking it up with a spoon.",
+    "Stir in tomato paste and cook for 1-2 minutes.",
+    "Add chopped tomatoes and red wine (if using).",
+    "Pour in stock, add oregano, basil, salt, pepper, and a pinch of sugar.",
+    "Simmer gently for 30-45 minutes, stirring occasionally.",
+    "Cook pasta separately according to package instructions.",
+    "Serve the sauce over the pasta, optionally garnished with Parmesan."
+  ]
+}
+ 
 ]
