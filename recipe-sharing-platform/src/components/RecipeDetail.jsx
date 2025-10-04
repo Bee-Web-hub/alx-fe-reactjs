@@ -1,72 +1,99 @@
-import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function RecipeDetail() {
-  const { id } = useParams();
-  const [recipe, setRecipe] = useState(null);
+export default function AddRecipeForm() {
+  const navigate = useNavigate();
 
-  // Load recipe dynamically from data.json
-  useEffect(() => {
-    fetch("/src/data.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const foundRecipe = data.find((r) => r.id === parseInt(id));
-        setRecipe(foundRecipe);
-      })
-      .catch((err) => console.error("Error loading recipe:", err));
-  }, [id]);
+  // Form state
+  const [title, setTitle] = useState("");
+  const [ingredients, setIngredients] = useState("");
+  const [steps, setSteps] = useState(""); // preparation steps
+  const [errors, setErrors] = useState({});
 
-  if (!recipe) {
-    return (
-      <div className="p-6 text-center text-gray-500">
-        Recipe not found or loading...
-        <div>
-          <Link to="/" className="text-blue-500 hover:underline">
-            ← Back to Home
-          </Link>
-        </div>
-      </div>
-    );
-  }
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Simple validation
+    const newErrors = {};
+    if (!title.trim()) newErrors.title = "Title is required";
+    if (!ingredients.trim()) newErrors.ingredients = "Ingredients are required";
+    if (!steps.trim()) newErrors.steps = "Preparation steps are required";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    // Here we would normally send data to backend
+    console.log({
+      title,
+      ingredients: ingredients.split("\n"), // store as array
+      steps: steps.split("\n"),
+    });
+
+    // Reset form
+    setTitle("");
+    setIngredients("");
+    setSteps("");
+    setErrors({});
+
+    // Optionally redirect to home page
+    navigate("/");
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <Link to="/" className="inline-block mb-6 text-blue-500 hover:underline">
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-md mt-6">
+      <Link to="/" className="text-blue-500 hover:underline mb-4 inline-block">
         ← Back to Home
       </Link>
 
-      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
-        <img
-          src={recipe.image}
-          alt={recipe.title}
-          className="w-full h-64 object-cover rounded-lg mb-6"
-        />
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">Add a New Recipe</h1>
 
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">{recipe.title}</h1>
-        <p className="text-gray-700 mb-6">{recipe.summary}</p>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Title */}
+        <div>
+          <label className="block font-semibold mb-1">Recipe Title</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full border border-gray-300 rounded-md p-2"
+          />
+          {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
+        </div>
 
-        {recipe.ingredients && (
-          <section className="mb-6">
-            <h2 className="text-2xl font-semibold mb-2">Ingredients</h2>
-            <ul className="list-disc list-inside text-gray-700">
-              {recipe.ingredients.map((item, idx) => (
-                <li key={idx}>{item}</li>
-              ))}
-            </ul>
-          </section>
-        )}
+        {/* Ingredients */}
+        <div>
+          <label className="block font-semibold mb-1">Ingredients (one per line)</label>
+          <textarea
+            value={ingredients}
+            onChange={(e) => setIngredients(e.target.value)}
+            rows={5}
+            className="w-full border border-gray-300 rounded-md p-2"
+          />
+          {errors.ingredients && <p className="text-red-500 text-sm mt-1">{errors.ingredients}</p>}
+        </div>
 
-        {recipe.instructions && (
-          <section>
-            <h2 className="text-2xl font-semibold mb-2">Instructions</h2>
-            <ol className="list-decimal list-inside text-gray-700">
-              {recipe.instructions.map((step, idx) => (
-                <li key={idx} className="mb-2">{step}</li>
-              ))}
-            </ol>
-          </section>
-        )}
-      </div>
+        {/* Preparation Steps */}
+        <div>
+          <label className="block font-semibold mb-1">Preparation Steps (one per line)</label>
+          <textarea
+            value={steps}
+            onChange={(e) => setSteps(e.target.value)}
+            rows={5}
+            className="w-full border border-gray-300 rounded-md p-2"
+          />
+          {errors.steps && <p className="text-red-500 text-sm mt-1">{errors.steps}</p>}
+        </div>
+
+        <button
+          type="submit"
+          className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition"
+        >
+          Add Recipe
+        </button>
+      </form>
     </div>
   );
 }
