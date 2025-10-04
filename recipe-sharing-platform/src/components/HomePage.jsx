@@ -1,34 +1,36 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import AddRecipeForm from "./AddRecipeForm";
 
 export default function HomePage() {
   const [recipes, setRecipes] = useState([]);
 
   // Load recipes from JSON dynamically
   useEffect(() => {
-    fetch("/src/data.json") // Fetch from src folder
+    fetch("/src/data.json")
       .then((res) => res.json())
       .then((data) => setRecipes(data))
       .catch((err) => console.error("Error loading recipes:", err));
   }, []);
 
+  // Function to add a new recipe to the state
+  const addRecipe = (newRecipe) => {
+    // Optionally add an ID
+    const id = recipes.length ? recipes[recipes.length - 1].id + 1 : 1;
+    setRecipes([...recipes, { id, ...newRecipe }]);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      {/* Header with Add Recipe button */}
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-10">
-        <h1 className="text-4xl font-bold text-green-600 mb-4 sm:mb-0">
-          🍲 Recipe Sharing Platform
-        </h1>
-        <Link
-          to="/add"
-          className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
-        >
-          + Add New Recipe
-        </Link>
-      </div>
+      <h1 className="text-4xl font-bold text-center text-green-600 mb-10">
+        🍲 Recipe Sharing Platform
+      </h1>
+
+      {/* Add Recipe Form */}
+      <AddRecipeForm addRecipe={addRecipe} />
 
       {/* Recipe Grid */}
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-10">
         {recipes.map((recipe) => (
           <Link
             to={`/recipe/${recipe.id}`}
